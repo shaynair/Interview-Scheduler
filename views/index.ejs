@@ -1,0 +1,60 @@
+<%- include partials/head.ejs %>
+		<header>
+			<h1 class="center-align">MASTERY Module</h1>
+		</header>
+	
+		<main class="valign-wrapper container">
+		</main>
+		  
+		  <div id="modal-table" class="modal bottom-sheet">
+			<div class="modal-content">
+			  <h4>Rooms</h4>
+
+			</div>
+			<div class="modal-footer">
+			  <a href="#!" class=" modal-action modal-close btn-flat"><i class="material-icons">done</i></a>
+			</div>
+		  </div>
+		  
+		  <div id="modal-col" class="modal bottom-sheet">
+			<div class="modal-content">
+			  <h4>Mentors</h4>
+			</div>
+			<div class="modal-footer">
+			  <a href="#!" class=" modal-action modal-close btn-flat"><i class="material-icons">done</i></a>
+			</div>
+		  </div>
+		  
+		  <div id="modal-row" class="modal bottom-sheet">
+			<div class="modal-content">
+			  <h4>Time slots</h4>
+			</div>
+			<div class="modal-footer">
+			  <a href="#!" class=" modal-action modal-close btn-flat"><i class="material-icons">done</i></a>
+			</div>
+		  </div>
+		  
+		  <div id="modal-entry" class="modal bottom-sheet">
+			<div class="modal-content">
+			  <h4>Candidates</h4>
+			</div>
+			<div class="modal-footer">
+			  <a href="#!" class=" modal-action modal-close btn-flat"><i class="material-icons">done</i></a>
+			</div>
+		  </div>
+		
+		  <div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 2em; right: 1em;">
+			<a class="btn-floating btn-large red"><i class="large material-icons">mode_edit</i></a>
+			<ul>
+			  <li><a href="#modal-table" data-target="modal-table" class="btn-floating modal-trigger red tooltipped" data-position="top" data-delay="50" data-tooltip="Edit rooms"><i class="material-icons">input</i></a></li>
+			  <li><a href="#modal-col" class="btn-floating modal-trigger yellow tooltipped" data-position="top" data-delay="50" data-tooltip="Edit mentors"><i class="material-icons">question_answer</i></a></li>
+			  <li><a href="#modal-entry" class="btn-floating modal-trigger green tooltipped" data-position="top" data-delay="50" data-tooltip="Edit candidates"><i class="material-icons">contacts</i></a></li>
+			  <li><a href="#modal-row" class="btn-floating modal-trigger blue tooltipped" data-position="top" data-delay="50" data-tooltip="Edit time slots"><i class="material-icons">today</i></a></li>
+			</ul>
+		  </div>
+		
+		<script>
+			var csrf = "<%= csrfToken %>";
+			var data = <%- JSON.stringify(data) %>;
+		</script>
+<%- include partials/footer.ejs %>
