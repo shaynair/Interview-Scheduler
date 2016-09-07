@@ -56,9 +56,12 @@ module.exports = {
 		this.run((db, cb) => {
 			let collection = db.collection("data");
 			collection.deleteMany({table: add.table, col: add.col, row: add.row}, (err, res) => {
-				c.logError(err);
-				
-				collection.insertOne(add, cb);
+				if (add.entry) {
+					c.logError(err);
+					collection.insertOne(add, cb);
+				} else {
+					cb(err);
+				}
 			});
 		});
 	},

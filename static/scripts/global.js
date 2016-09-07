@@ -60,7 +60,7 @@ function reload(d = data) {
 				$cell.addClass("row-" + headers[tid][i]);
 				
 				let $select = $("<select>");
-				$select.append($('<option disabled selected>').text("?"));
+				$select.append($('<option value="" selected>').text("?"));
 				for (let d in data["entry"]) {
 					if (!data["entry"].hasOwnProperty(d)) {
 						continue;
@@ -86,15 +86,18 @@ function reload(d = data) {
 	
 	for (let key in data.data) {
 		if (data.data.hasOwnProperty(key)) {
-			setEntry({table: key.split("-")[0], col: key.split("-")[1], row: key.split("-")[2], val: data.data[key]});
+			setEntry({table: key.split("-")[0], col: key.split("-")[1], row: key.split("-")[2], entry: data.data[key]});
 		}
 	}
 }
 
 function setEntry(set) {
 	$("#" + set.table + "-" + set.col + "-" + set.row).find("select").val(set.entry).material_select();
-	data.data[set.table + "-" + set.col + "-" + set.row] = set.entry;
-	
+	if (!set.entry) {
+		delete data.data[set.table + "-" + set.col + "-" + set.row];
+	} else {
+		data.data[set.table + "-" + set.col + "-" + set.row] = set.entry;
+	}
 	// Find constraints
 	let entry = {}; 
 	
