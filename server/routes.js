@@ -74,7 +74,7 @@ module.exports = {
 	// Configures socket routes
 	socket: function (socket, io, main) {
 		socket.on("add", (add) => {
-			main.db.add(add.type, add.text, (id) => {
+			main.db.add(add.type, add.text, add.link, (id) => {
 				add.id = id;
 				io.emit("add", add);
 				socket.emit("success");
@@ -82,7 +82,7 @@ module.exports = {
 		});
 		
 		socket.on("edit", (add) => {
-			main.db.edit(add.type, add.id, add.text);
+			main.db.edit(add.type, add.id, add.text, add.link);
 			
 			io.emit("edit", add);
 			socket.emit("success");
@@ -92,6 +92,12 @@ module.exports = {
 			main.db.remove(add.type, add.id);
 			
 			io.emit("remove", add);
+			socket.emit("success");
+		});
+		socket.on("set", (add) => {
+			main.db.set(add);
+			
+			io.emit("set", add);
 			socket.emit("success");
 		});
 		

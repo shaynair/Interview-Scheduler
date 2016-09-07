@@ -15,32 +15,51 @@ module.exports = {
 		});
 	},
 	
-	add: function(type, text, callback) {
+	add: function(type, text, link, callback) {
 		this.run((db, cb) => {
 			let collection = db.collection(type);
 			let ob = {"text": text};
+			if (link) {
+				ob.link = link;
+			}
 			collection.insertOne(ob, (err, res) => {
-				c.logError(err);
-				
 				callback(ob._id);
-				cb();
+				cb(err);
 				
-				this.edit(type, ob._id, text);
+				this.edit(type, ob._id, text, link);
 			});
 		});
 	},
 	
-	edit: function(type, id, text) {
+	edit: function(type, id, text, link) {
 		this.run((db, cb) => {
 			let collection = db.collection(type);
-			collection.updateOne({_id: new mongodb.ObjectID(id)}, {$set: {"text": text}}, cb);
+			collection.updateOne({_id: new mongodb.ObjectID(id)}, {$set: {"text": text, "link": link}}, cb);
 		});
 	},
 	
 	remove: function(type, id) {
 		this.run((db, cb) => {
 			let collection = db.collection(type);
-			collection.deleteOne({_id: new mongodb.ObjectID(id)}, cb);
+			collection.deleteOne({_id: new mongodb.ObjectID(id)}, (err, res) => {
+				c.logError(err);
+				
+				let data = db.collection("data");
+				let ob = {};
+				ob[type] = id;
+				data.deleteMany(ob, cb);
+			});
+		});
+	},
+	
+	set: function(add) {
+		this.run((db, cb) => {
+			let collection = db.collection("data");
+			collection.deleteMany({table: add.table, col: add.col, row: add.row}, (err, res) => {
+				c.logError(err);
+				
+				collection.insertOne(add, cb);
+			});
 		});
 	},
 	
@@ -66,12 +85,27 @@ module.exports = {
 					if (res.hasOwnProperty(type)) {
 						ret[type] = {};
 						for (let ob of res[type]) {
-							ret[type][ob._id] = ob.text;
+							ret[type][ob._id] = {text: ob.text};
+							if (ob.link) {
+								ret[type][ob._id].link = ob.link;
+							}
 						}
 					}
 				}
-				callback(ret);
-				cb();
+				
+				let collection = db.collection("data");
+				collection.find({}).toArray((err, result) => {
+					ret.data = {};
+					for (let set of result) {
+						if (!set.entry) {
+							continue;
+						}
+						ret.data[set.table + "-" + set.col + "-" + set.row] = set.entry;
+					}
+					callback(ret);
+					cb(err);
+				});
+
 			});
 		});
 	}
