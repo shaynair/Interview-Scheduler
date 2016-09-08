@@ -19,7 +19,7 @@ function reload(d = data) {
 			if (type == "table") {
 				let $table = $('<table class="row container bordered striped responsive-table">');
 				$table.attr("id", d);
-				$table.append($('<thead>').append($('<tr>').append($("<td>").addClass("red-text text-darken-4").text(data[type][d].text))));
+				$table.append($('<thead>').addClass("white-text black").append($('<tr>').append($("<td>").addClass("red-text text-lighten-4").text(data[type][d].text))));
 				$table.append($('<tbody>'));
 				$("main").append($table);
 				
