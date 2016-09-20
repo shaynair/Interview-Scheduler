@@ -132,7 +132,7 @@ function setEntry(set) {
       .removeClass("lighten-4").removeClass("text-lighten-4");
     if ($select.val() != "" && $select.val() != null) {
       let e = entry[$select.val()];
-      if (e.count > 2) {
+      if (e.count > 1) {
         $select.parent().parent().addClass("red").addClass("red-text")
           .addClass("text-lighten-4").addClass("darken-2");
         // candidates more than 2: dark red fill, white text
