@@ -64,9 +64,9 @@ app.use(bodyParser.urlencoded({
 
 // CSRF protection for POST
 app.use(cookieParser(c.COOKIE_SECRET));
-app.use(csrf({
-	cookie: true
-}));
+//app.use(csrf({
+//	cookie: true
+//}));
 
 // Exports for other files
 module.exports = {

@@ -59,16 +59,12 @@ module.exports = {
 		// By default, fields are null
 		let ret = {
 			title: "Error",
-			csrfToken: req.csrfToken(),
-			data: false,
+			data: {},
 		};
 		if (r) {
 			ret.title = PAGES[r].title;
 		}
-		main.db.getAllData((d) => {
-			ret.data = d;
-			cb(ret);
-		});
+		cb(ret);
 	},
 	
 	// Configures socket routes
@@ -101,11 +97,15 @@ module.exports = {
 			socket.emit("success");
 		});
 		
-		socket.on("change", () => {
+		var reset = () => {
 			main.db.getAllData((data) => {
 				socket.emit("change", data);
 				socket.emit("success");
 			});
-		});
+		};
+
+		reset();
+
+		socket.on("change", reset);
 	}
 }
