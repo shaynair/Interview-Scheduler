@@ -4,7 +4,6 @@ Allows scheduling of interviews between multiple time slots, interviewers and in
 
 ## Table of Contents
 
-- [Introduction](#introduction)
 - [How to start](#how-to-start)
 - [Contributing](#contributing)
 
